@@ -19,15 +19,16 @@ const SCALE_HUMIDITY = ['#ff9800', '#8bc34a', '#4caf50', '#8bc34a', '#ff9800']; 
 //
 // Each `defaultThresholds` array has exactly 4 ascending values defining 5
 // tiers. The corresponding `colors`/`labels` arrays have exactly 5 entries.
+// Labels are defined in language section
 const METRIC_DEFS = {
-  co:         { defaultThresholds: [4, 9, 35, 100],          colors: SCALE_AIRQUALITY, labels: ['Safe', 'Low', 'Moderate', 'High', 'Dangerous'] },
-  co2:        { defaultThresholds: [600, 800, 1000, 1500],   colors: SCALE_AIRQUALITY, labels: ['Excellent', 'Good', 'Moderate', 'Elevated', 'Poor'] },
-  pm25:       { defaultThresholds: [5, 15, 25, 35],          colors: SCALE_AIRQUALITY, labels: ['Excellent', 'Good', 'Moderate', 'Elevated', 'Poor'] },
-  pm10:       { defaultThresholds: [15, 45, 75, 150],        colors: SCALE_AIRQUALITY, labels: ['Excellent', 'Good', 'Moderate', 'Elevated', 'Poor'] },
-  pm1:        { defaultThresholds: [5, 15, 25, 35],          colors: SCALE_AIRQUALITY, labels: ['Excellent', 'Good', 'Moderate', 'Elevated', 'Poor'] },
-  pm03:       { defaultThresholds: [500, 1000, 3000, 5000],  colors: SCALE_AIRQUALITY, labels: ['Clean', 'Good', 'Moderate', 'Elevated', 'Poor'] },
-  pm4:        { defaultThresholds: [10, 25, 37.5, 50],       colors: SCALE_AIRQUALITY, labels: ['Excellent', 'Good', 'Moderate', 'Elevated', 'Poor'] },
-  hcho:       { defaultThresholds: [20, 50, 100, 200],       colors: SCALE_AIRQUALITY, labels: ['Excellent', 'Good', 'Moderate', 'Elevated', 'Poor'] },
+  co:         { defaultThresholds: [4, 9, 35, 100],          colors: SCALE_AIRQUALITY },
+  co2:        { defaultThresholds: [600, 800, 1000, 1500],   colors: SCALE_AIRQUALITY },
+  pm25:       { defaultThresholds: [5, 15, 25, 35],          colors: SCALE_AIRQUALITY },
+  pm10:       { defaultThresholds: [15, 45, 75, 150],        colors: SCALE_AIRQUALITY },
+  pm1:        { defaultThresholds: [5, 15, 25, 35],          colors: SCALE_AIRQUALITY },
+  pm03:       { defaultThresholds: [500, 1000, 3000, 5000],  colors: SCALE_AIRQUALITY },
+  pm4:        { defaultThresholds: [10, 25, 37.5, 50],       colors: SCALE_AIRQUALITY },
+  hcho:       { defaultThresholds: [20, 50, 100, 200],       colors: SCALE_AIRQUALITY },
   // NOx, like tVOC, comes in two flavors: absolute ppb, or the Sensirion
   // SGP41 NOx Index (unitless, 1-500, baseline 1 in clean air — unlike the
   // VOC Index which centers at 100, so the tables must differ). AirGradient
@@ -36,20 +37,20 @@ const METRIC_DEFS = {
   // and the EPA AQI USG/Unhealthy breakpoint (360). Index tiers follow
   // Sensirion's integration note / AirGradient's dashboard bands (20/150/300);
   // the 5 splits Excellent from Good at the SGP41's ±5pt repeatability spec.
-  nox_ppb:    { defaultThresholds: [20, 53, 100, 360],       colors: SCALE_AIRQUALITY, labels: ['Excellent', 'Good', 'Moderate', 'Elevated', 'Poor'] },
-  nox_index:  { defaultThresholds: [5, 20, 150, 300],        colors: SCALE_AIRQUALITY, labels: ['Excellent', 'Good', 'Moderate', 'Elevated', 'Poor'] },
-  radon:      { defaultThresholds: [48, 100, 148, 300],      colors: SCALE_AIRQUALITY, labels: ['Excellent', 'Good', 'Elevated', 'High', 'Dangerous'] },
-  humidity:   { defaultThresholds: [30, 40, 50, 60],         colors: SCALE_HUMIDITY,   labels: ['Too Dry', 'Dry', 'Comfortable', 'Humid', 'Too Humid'] },
+  nox_ppb:    { defaultThresholds: [20, 53, 100, 360],       colors: SCALE_AIRQUALITY },
+  nox_index:  { defaultThresholds: [5, 20, 150, 300],        colors: SCALE_AIRQUALITY },
+  radon:      { defaultThresholds: [48, 100, 148, 300],      colors: SCALE_AIRQUALITY },
+  humidity:   { defaultThresholds: [30, 40, 50, 60],         colors: SCALE_HUMIDITY },
   // Atmospheric pressure is informational (not a health hazard), so it uses a
   // bell palette with a wide green band — typical weather stays calm/green.
   // Thresholds assume hPa/mbar (what Airthings and most HA sensors report);
   // override with `pressure_thresholds` for inHg/mmHg or a different band.
-  pressure:   { defaultThresholds: [990, 1005, 1025, 1040], colors: SCALE_HUMIDITY,   labels: ['Low', 'Slightly Low', 'Normal', 'Slightly High', 'High'] },
+  pressure:   { defaultThresholds: [990, 1005, 1025, 1040], colors: SCALE_HUMIDITY },
   // tVOC and temperature defaults depend on mode/unit and are computed at call time.
-  tvoc_ppb:   { defaultThresholds: [100, 300, 500, 1000],    colors: SCALE_AIRQUALITY, labels: ['Excellent', 'Good', 'Moderate', 'Elevated', 'Poor'] },
-  tvoc_index: { defaultThresholds: [100, 150, 250, 400],     colors: SCALE_AIRQUALITY, labels: ['Excellent', 'Good', 'Moderate', 'Elevated', 'Poor'] },
-  temp_c:     { defaultThresholds: [18, 20, 22, 24],         colors: SCALE_TEMPERATURE, labels: ['Cold', 'Cool', 'Comfortable', 'Warm', 'Hot'] },
-  temp_f:     { defaultThresholds: [65, 68, 72, 76],         colors: SCALE_TEMPERATURE, labels: ['Cold', 'Cool', 'Comfortable', 'Warm', 'Hot'] }
+  tvoc_ppb:   { defaultThresholds: [100, 300, 500, 1000],    colors: SCALE_AIRQUALITY },
+  tvoc_index: { defaultThresholds: [100, 150, 250, 400],     colors: SCALE_AIRQUALITY },
+  temp_c:     { defaultThresholds: [18, 20, 22, 24],         colors: SCALE_TEMPERATURE },
+  temp_f:     { defaultThresholds: [65, 68, 72, 76],         colors: SCALE_TEMPERATURE }
 };
 
 // Embedded translations. Spanish/French/German contributed by @b0rv3g4r4 on
@@ -103,7 +104,7 @@ const TRANSLATIONS = {
       advisory_info: 'Radon - Monitor Closely',
       short_term: 'Short-term', long_term: 'Long-term'
     },
-    metric: { humidity: 'Humidity', temperature: 'Temperature', pressure: 'Pressure' },
+    metric: { humidity: 'Humidity', temperature: 'Temperature', pressure: 'Pressure', outdoor_label: 'out' },
     editor: {
       name: 'Card Name', co2_entity: 'CO₂ Sensor', pm25_entity: 'PM2.5 Sensor',
       humidity_entity: 'Humidity Sensor', temperature_entity: 'Temperature Sensor',
@@ -126,6 +127,25 @@ const TRANSLATIONS = {
       auto_expand: 'Auto-expand when air quality degrades',
       section_additional: 'Additional Sensors', section_outdoor: 'Outdoor Sensors',
       section_advanced: 'Advanced'
+    },
+    metric_labels: {
+      co:         ['Safe', 'Low', 'Moderate', 'High', 'Dangerous'],
+      co2:        ['Excellent', 'Good', 'Moderate', 'Elevated', 'Poor'],
+      pm25:       ['Excellent', 'Good', 'Moderate', 'Elevated', 'Poor'],
+      pm10:       ['Excellent', 'Good', 'Moderate', 'Elevated', 'Poor'],
+      pm1:        ['Excellent', 'Good', 'Moderate', 'Elevated', 'Poor'],
+      pm03:       ['Clean', 'Good', 'Moderate', 'Elevated', 'Poor'],
+      pm4:        ['Excellent', 'Good', 'Moderate', 'Elevated', 'Poor'],
+      hcho:       ['Excellent', 'Good', 'Moderate', 'Elevated', 'Poor'],
+      nox_ppb:    ['Excellent', 'Good', 'Moderate', 'Elevated', 'Poor'],
+      nox_index:  ['Excellent', 'Good', 'Moderate', 'Elevated', 'Poor'],
+      radon:      ['Excellent', 'Good', 'Elevated', 'High', 'Dangerous'],
+      humidity:   ['Too Dry', 'Dry', 'Comfortable', 'Humid', 'Too Humid'],
+      pressure:   ['Low', 'Slightly Low', 'Normal', 'Slightly High', 'High'],
+      tvoc_ppb:   ['Excellent', 'Good', 'Moderate', 'Elevated', 'Poor'],
+      tvoc_index: ['Excellent', 'Good', 'Moderate', 'Elevated', 'Poor'],
+      temp_c:     ['Cold', 'Cool', 'Comfortable', 'Warm', 'Hot'],
+      temp_f:     ['Cold', 'Cool', 'Comfortable', 'Warm', 'Hot']
     }
   },
   es: {
@@ -206,7 +226,7 @@ const TRANSLATIONS = {
       advisory_info: 'Radon - monitoruj uważnie',
       short_term: 'Krótkoterminowy', long_term: 'Długoterminowy'
     },
-    metric: { humidity: 'Wilgotność', temperature: 'Temperatura', pressure: 'Ciśnienie' },
+    metric: { humidity: 'Wilgotność', temperature: 'Temperatura', pressure: 'Ciśnienie', outdoor_label: 'zew.' },
     editor: {
       name: 'Tytuł karty', co2_entity: 'CO₂', pm25_entity: 'PM2.5',
       humidity_entity: 'Wilgotność', temperature_entity: 'Temperatura',
@@ -232,6 +252,25 @@ const TRANSLATIONS = {
       order: 'Kolejność sensorów (wybierz w kolejności priorytetu)',
       display: 'Tryb wyświetlania', tap_action: 'Akcja po kliknięciu',
       hold_action: 'Akcja po przytrzymaniu', double_tap_action: 'Akcja po dwukrotnym kliknięciu'
+    },
+    metric_labels: {
+      co:         ['Bezpieczny', 'Niski', 'Umiarkowany', 'Wysoki', 'Niebezpieczny'],
+      co2:        ['Bardzo dobry', 'Dobry', 'Umiarkowany', 'Dostateczny', 'Zły'],
+      pm25:       ['Bardzo dobry', 'Dobry', 'Umiarkowany', 'Dostateczny', 'Zły'],
+      pm10:       ['Bardzo dobry', 'Dobry', 'Umiarkowany', 'Dostateczny', 'Zły'],
+      pm1:        ['Bardzo dobry', 'Dobry', 'Umiarkowany', 'Dostateczny', 'Zły'],
+      pm03:       ['Bardzo dobry', 'Dobry', 'Umiarkowany', 'Dostateczny', 'Zły'],
+      pm4:        ['Bardzo dobry', 'Dobry', 'Umiarkowany', 'Dostateczny', 'Zły'],
+      hcho:       ['Bardzo dobry', 'Dobry', 'Umiarkowany', 'Dostateczny', 'Zły'],
+      nox_ppb:    ['Bardzo dobry', 'Dobry', 'Umiarkowany', 'Dostateczny', 'Zły'],
+      nox_index:  ['Bardzo dobry', 'Dobry', 'Umiarkowany', 'Dostateczny', 'Zły'],
+      radon:      ['Bardzo niski', 'Niski', 'Podwyższony', 'Wysoki', 'Niebezpieczny'],
+      humidity:   ['Zbyt sucho', 'Sucho', 'Komfortowo', 'Wilgotno', 'Zbyt wilgotno'],
+      pressure:   ['Niskie', 'Lekko obniżone', 'Normalne', 'Lekko podwyższone', 'Wysokie'],
+      tvoc_ppb:   ['Bardzo dobry', 'Dobry', 'Umiarkowany', 'Dostateczny', 'Zły'],
+      tvoc_index: ['Bardzo dobry', 'Dobry', 'Umiarkowany', 'Dostateczny', 'Zły'],
+      temp_c:     ['Zimno', 'Chłodno', 'Komfortowo', 'Ciepło', 'Gorąco'],
+      temp_f:     ['Zimno', 'Chłodno', 'Komfortowo', 'Ciepło', 'Gorąco']
     }
   },
 };
@@ -466,14 +505,19 @@ class AirQualityCard extends HTMLElement {
   //   3. hass.language (older HA versions, deprecated but still present)
   //   4. 'en'
   // Falls back to 'en' if the resolved code isn't shipped.
-  _resolveLanguage() {
+  _configuredLanguage() {
     const explicit = this._config.language;
     let lang;
     if (explicit && explicit !== 'auto') {
       lang = explicit;
     } else {
-      lang = this._hass?.locale?.language || this._hass?.language || 'en';
+      lang = this._hass?.locale?.language || this._hass?.language || undefined;
     }
+    return lang
+  }
+
+  _resolveLanguage() {
+    const lang = this._configuredLanguage() || 'en'
     const code = String(lang).split('-')[0].toLowerCase();
     return TRANSLATIONS[code] ? code : 'en';
   }
@@ -498,6 +542,23 @@ class AirQualityCard extends HTMLElement {
       }
     }
     return str;
+  }
+
+  _formatTime(time) {
+    const locale = this._hass?.locale;
+    const options = {
+      hour: 'numeric',
+      minute: '2-digit'
+    };
+
+    if (locale?.time_format === '24') {
+      options.hourCycle = 'h23';
+    } else if (locale?.time_format === '12') {
+      options.hourCycle = 'h12';
+    }
+
+    const language = this._configuredLanguage()
+    return time.toLocaleTimeString(language ? language : [], options);
   }
 
   set hass(hass) {
@@ -718,7 +779,7 @@ class AirQualityCard extends HTMLElement {
   // `tiers` is the 5-element output array (colors, labels, …).
   _tieredValue(value, thresholds, tiers) {
     for (let i = 0; i < thresholds.length; i++) {
-      if (value < thresholds[i]) return tiers[i];
+      if (value < thresholds[i]) return this._t('status', tiers[i]);
     }
     return tiers[tiers.length - 1];
   }
@@ -767,7 +828,7 @@ class AirQualityCard extends HTMLElement {
   }
 
   _getMetricStatus(metric, value) {
-    return this._tieredValue(value, this._metricThresholds(metric), METRIC_DEFS[metric].labels);
+    return this._tieredValue(value, this._metricThresholds(metric), this._t('metric_labels', metric));
   }
 
   _getCO2Color(value)  { return this._getMetricColor('co2', value); }
@@ -1902,7 +1963,7 @@ class AirQualityCard extends HTMLElement {
             ${showHumidity ? `
             <div class="graph-container" id="humidity-graph-container" data-entity="${this._config.humidity_entity}">
               <div class="graph-header">
-                <span class="graph-label">Humidity</span>
+                <span class="graph-label">${this._t('metric', 'humidity')}</span>
                 <span class="graph-value" id="humidity-value">-- <span class="unit">%</span><span class="status" id="humidity-status"></span></span>
               </div>
               <div class="graph-wrapper">
@@ -1923,7 +1984,7 @@ class AirQualityCard extends HTMLElement {
             ${showTemp ? `
             <div class="graph-container" id="temperature-graph-container" data-entity="${this._config.temperature_entity}">
               <div class="graph-header">
-                <span class="graph-label">Temperature</span>
+                <span class="graph-label">${this._t('metric', 'temperature')}</span>
                 <span class="graph-value" id="temperature-value">-- <span class="unit">${this._getTempUnit()}</span><span class="status" id="temperature-status"></span></span>
               </div>
               <div class="graph-wrapper">
@@ -1944,7 +2005,7 @@ class AirQualityCard extends HTMLElement {
             ${showPressure ? `
             <div class="graph-container" id="pressure-graph-container" data-entity="${this._config.pressure_entity}">
               <div class="graph-header">
-                <span class="graph-label">Pressure</span>
+                <span class="graph-label">${this._t('metric', 'pressure')}</span>
                 <span class="graph-value" id="pressure-value">-- <span class="unit">hPa</span><span class="status" id="pressure-status"></span></span>
               </div>
               <div class="graph-wrapper">
@@ -2127,7 +2188,7 @@ class AirQualityCard extends HTMLElement {
       const val = this._getNumericState(this._config[entityKey]);
       // Unitless index metrics (empty unit) match the indoor 1-decimal display
       const precise = unit === 'μg/m³' || unit === 'µg/m³' || unit === 'ppb' || unit === '';
-      return ` <span class="outdoor-value">(out: ${precise ? val.toFixed(1) : Math.round(val)}${unit ? ' ' + unit : ''})</span>`;
+      return ` <span class="outdoor-value">(${this._t('metric', 'outdoor_label')}: ${precise ? val.toFixed(1) : Math.round(val)}${unit ? ' ' + unit : ''})</span>`;
     };
 
     // Update CO
@@ -2581,7 +2642,7 @@ class AirQualityCard extends HTMLElement {
       const endTime = new Date(win.end);
       const midTime = new Date((win.start + win.end) / 2);
 
-      const formatTime = (d) => d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+      const formatTime = (d) => this._formatTime(d);
       timeAxis.innerHTML = `
         <span>${formatTime(startTime)}</span>
         <span>${formatTime(midTime)}</span>
@@ -2728,7 +2789,7 @@ class AirQualityCard extends HTMLElement {
 
     if (timeEl && closest.time) {
       const time = new Date(closest.time);
-      timeEl.textContent = time.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+      timeEl.textContent = this._formatTime(time)
     }
 
     let tooltipX = pct * 100;
@@ -2959,9 +3020,9 @@ if (LitElement && !customElements.get('air-quality-card-editor')) {
               { value: 'hcho', label: 'HCHO' },
               { value: 'tvoc', label: 'tVOC' },
               { value: 'nox', label: 'NOx' },
-              { value: 'humidity', label: 'Humidity' },
-              { value: 'temperature', label: 'Temperature' },
-              { value: 'pressure', label: 'Pressure' }
+              { value: 'humidity', label: this._t('metric', 'humidity') },
+              { value: 'temperature', label:  this._t('metric', 'temperature') },
+              { value: 'pressure', label:  this._t('metric', 'pressure') }
             ] } } },
             { name: 'display', selector: { select: { options: [{ value: 'full', label: 'Full (graphs and details)' }, { value: 'compact', label: 'Compact (status badge only)' }, { value: 'expandable', label: 'Expandable (compact, tap to expand)' }], mode: 'dropdown' } } },
             { name: 'compact_alerts', selector: { boolean: {} } },
